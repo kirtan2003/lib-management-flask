@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='main.css') }}">
+</head>
+
+<body>
+    <h1>Library Management</h1>
+
+    <div>
+        <form action="/" method="POST">
+            <label for="title">Book Title: </label>
+            <input type="text" id="title" name="title" placeholder="Your Title...">
+
+            <label for="author">Author: </label>
+            <input type="text" id="author" name="author" placeholder="Author..">
+
+            <input type="submit" value="Submit">
+        </form>
+    </div>
+
+    <h1 class="database">Books Database</h1>
+    <form action="/" method="GET" class="search_form">
+        <input type="text" name="search" placeholder="Search by Title or Author..." value="{{ search }}">
+        <button style="padding: 12px 20px; border-radius: 5px;" type="submit">Search</button>
+    </form>
+    {% if book.items|length == 0 %}
+        <p>No Books Available!!!</p>
+    {% else %}
+    <table id="books">
+        <thead>
+            <tr>
+                <th>S.No.</th>
+                <th>Book Title</th>
+                <th>Author</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for b in book %}
+            <tr>
+                <th>{{loop.index + ((book.page - 1) * book.per_page)}}</th>
+                <td>{{b.title}}</td>
+                <td>{{b.author}}</td>
+                <td>
+                    <a class="button button2" href="/update/{{b.sno}}" type="button">Update</a>
+                    <a class="button button1" href="/delete/{{b.sno}}" type="button">Delete</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <div class="pagination">
+        {% if book.has_prev %}
+        <a href="/?page={{ book.prev_num }}&search={{ search }}">Previous</a>
+        {% endif %}
+    
+        <span>Page {{ book.page }} of {{ book.pages }}</span>
+    
+        {% if book.has_next %}
+        <a href="/?page={{ book.next_num }}&search={{ search }}">Next</a>
+        {% endif %}
+    </div>
+    {% endif %}
+
+</body>
+
+</html>

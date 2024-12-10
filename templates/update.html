@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='update.css') }}">
+    <title>Update-Book{{update_book.sno}}</title>
+</head>
+<body>
+    <h1>Update Book Details</h1>
+
+    <div>
+        <form action="/update/{{update_book.sno}}" method="POST">
+            <label for="title">Book Title: </label>
+            <input type="text" id="title" name="title" value="{{update_book.title}}" placeholder="Your Title...">
+
+            <label for="author">Author: </label>
+            <input type="text" id="author" name="author" value="{{update_book.author}}" placeholder="Author..">
+
+            <input type="submit" value="Update">
+        </form>
+    </div>
+</body>
+</html>
